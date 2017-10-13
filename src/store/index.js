@@ -3,7 +3,12 @@ import Vuex from 'vuex'
 
 import apolloClient from './../apollo'
 
-import { photosHome, photosHomeSus, profileInfo } from './../apollo/queries'
+import {
+  postsHome,
+  postsHomeSus,
+  profileInfo,
+  usersQuery
+} from './../apollo/queries'
 
 Vue.use(Vuex)
 const DEBUG = process.env.NODE_ENV === 'development'
@@ -12,34 +17,42 @@ let photosSubscriptionObserver
 
 const state = {
   profile: {},
-  photos: []
+  posts: [],
+  users: []
 }
 
 const getters = {
-  photos: state => state.photos
+  posts: state => state.posts
 }
 
 const mutations = {
   SET_PROFILE (state, data) {
     state.profile = data
   },
-  SET_PHOTOS (state, photos) {
+  SET_POSTS (state, posts) {
     // having an object instead of an array makes the other methods easier
     // since we can use Vue.set() and Vue.delete()
     const object = {}
-    photos.map((photo) => {
-      object[photo.id] = photo
+    posts.map((post) => {
+      object[post.id] = post
     })
-    state.photos = object
+    state.posts = object
   },
-  ADD_PHOTO (state, photo) {
-    Vue.set(state.photos, photo.id, photo)
+  SET_USERS (state, users) {
+    const object = {}
+    users.map((user) => {
+      object[user.id] = user
+    })
+    state.users = object
   },
-  UPDATE_PHOTO (state, photo) {
-    Vue.set(state.photos, photo.id, photo)
+  ADD_POST (state, post) {
+    Vue.set(state.posts, post.id, post)
   },
-  DELETE_PHOTO (state, photo) {
-    Vue.delete(state.photos, photo.id)
+  UPDATE_POST (state, post) {
+    Vue.set(state.posts, post.id, post)
+  },
+  DELETE_POST (state, post) {
+    Vue.delete(state.posts, post.id)
   }
 }
 
@@ -49,31 +62,36 @@ const actions = {
       context.commit('SET_PROFILE', result.data.User)
     })
   },
-  getPhotos (context, payload) {
-    apolloClient.query({query: photosHome, variables: payload}).then((result) => {
-      context.commit('SET_PHOTOS', result.data.allPhotos)
+  getUsers (context, payload) {
+    apolloClient.query({query: usersQuery, variables: payload}).then((result) => {
+      context.commit('SET_USERS', result.data.allUsers)
     })
   },
-  subscribeToPhotos (context, payload) {
+  getPosts (context, payload) {
+    apolloClient.query({query: postsHome, variables: payload}).then((result) => {
+      context.commit('SET_POSTS', result.data.allPosts)
+    })
+  },
+  subscribeToPosts (context, payload) {
     photosSubscriptionObserver = apolloClient.subscribe({
-      query: photosHomeSus,
+      query: postsHomeSus,
       variables: payload
     }).subscribe({
       next (data) {
         // mutation will say the type of GraphQL mutation `CREATED`, `UPDATED` or `DELETED`
-        console.log(data.Photo.mutation)
+        console.log(data.Post.mutation)
         // node is the actual data of the result of the GraphQL mutation
-        console.log(data.Photo)
+        console.log(data.Post)
         // then call your store mutation as usual
-        switch (data.Photo.mutation) {
+        switch (data.Post.mutation) {
           case 'CREATED':
-            context.commit('ADD_PHOTO', data.Photo.node)
+            context.commit('ADD_POST', data.Post.node)
             break
           case 'UPDATED':
-            context.commit('UPDATE_PHOTO', data.Photo.node)
+            context.commit('UPDATE_POST', data.Post.node)
             break
           case 'DELETED':
-            context.commit('DELETE_PHOTO', data.Photo.previousValues)
+            context.commit('DELETE_POST', data.Post.previousValues)
             break
         }
       },

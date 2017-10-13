@@ -1,34 +1,29 @@
 <template>
   <div class="auth">
-    <nav class="nav has-shadow">
-		  <div class="container">
-		    <div class="nav-center">
-		    	<router-link class="nav-item is-tab" :to="{name: 'Login'}" exact active-class="is-active">
-	          Login
-	        </router-link>
-	        <router-link class="nav-item is-tab" :to="{name: 'Register'}" exact active-class="is-active">
-	          Register
-	        </router-link>
-		    </div>
-		  </div>
-		</nav>
 		<div class="main-body">
 		  <div class="container">
         <div v-if="user">
-          <strong>Username: </strong> {{user.username}} <br>
-          <strong>Email: </strong> {{user.email}} <br>
+          <strong>User: </strong> {{user}} <br>
           <strong>Token: </strong> {{token}} <br>
-          <strong>userAPI: </strong> {{User}} <br>
           <p>
             <button class="button is-primary" type="button" @click="logout">Logout</button>
           </p>
         </div>
         <div class="auth-body" v-else>
+          <div class="tabs is-centered is-fullwidth">
+            <ul>
+              <router-link tag="li" :to="{name: 'Login'}" exact active-class="is-active">
+                <a>Login</a>
+              </router-link>
+              <router-link tag="li" :to="{name: 'Register'}" exact active-class="is-active">
+                <a>Register</a>
+              </router-link>
+            </ul>
+          </div>
           <transition name="fade" appear mode="out-in">
             <router-view></router-view>
           </transition>
         </div>
-        <pre>{{profile}}</pre>
       </div>
 		</div>
   </div>
@@ -36,33 +31,19 @@
 
 <script>
 import jwtDecode from 'jwt-decode'
-import { getUserId } from './auth/graph.cool.js'
 
 export default {
   components: {
   },
   data () {
     return {
-      msg: 'Welcome to Auth',
       user: this.$ls.get('authUser'),
-      token: null,
-      User: {}
+      token: null
     }
   },
   computed: {
     profile () {
       return this.$store.state.profile
-    }
-  },
-  // Apollo-specific options
-  apollo: {
-    // Query with parameters
-    User: {
-      // gql query
-      query: getUserId,
-      variables: {
-        id: 'cj30lemolmddd0167rwtbtk1s'
-      }
     }
   },
   mounted () {

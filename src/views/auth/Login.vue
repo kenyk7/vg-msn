@@ -1,6 +1,5 @@
 <template>
   <div class="login has-text-centered">
-    <h3 class="title is-4">{{msg}}</h3>
     <form>
       <div class="field">
         <p class="control">
@@ -24,7 +23,6 @@ import { login } from './graph.cool.js'
 export default {
   data () {
     return {
-      msg: 'Login',
       token: null,
       auth: {
         email: null,

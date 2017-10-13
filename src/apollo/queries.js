@@ -1,42 +1,58 @@
 import gql from 'graphql-tag'
 
-const fieldsPhotos = gql`
-  fragment fieldsPhotos on Photo {
+const fieldsPosts = gql`
+  fragment fieldsPosts on Post {
     id
     title
-    description
-    active
-    file{
-      url
-    }
+    content
+    publish
+    postCreated
     sendBy{
       id
       username
     }
-    _likedPhotosMeta{
+    _likedPostsMeta{
       count
     }
   }
 `
+export const usersQuery = gql`
+  query allUsers ($userAuth: ID!) {
+    allUsers(orderBy: updatedAt_DESC, filter: {id_not: $userAuth}) {
+      id
+      username
+      email
+      followers(filter: {id: $userAuth}){
+        id
+        username
+      }
+      followings(filter: {id: $userAuth}){
+        id
+        username
+      }
+    }
+  }
+`
 
-export const photosHome = gql`
-  query allPhotos ($userAuth: ID!) {
-    allPhotos(orderBy: createdAt_DESC, filter: {active: true}) {
-      ...fieldsPhotos
-      likedPhotos(filter: {id: $userAuth}){
+export const postsHome = gql`
+  query allPosts ($userAuth: ID!) {
+    allPosts(orderBy: postCreated_DESC, filter: {publish: true}) {
+      ...fieldsPosts
+      likedPosts(filter: {id: $userAuth}){
         id
       }
     }
   }
-  ${fieldsPhotos}
+  ${fieldsPosts}
 `
-export const photosHomeSus = gql`
+
+export const postsHomeSus = gql`
   subscription ($userAuth: ID!) {
-    Photo {
+    Post {
       mutation
       node {
-        ...fieldsPhotos
-        likedPhotos(filter: {id: $userAuth}){
+        ...fieldsPosts
+        likedPosts(filter: {id: $userAuth}){
           id
         }
       }
@@ -45,7 +61,7 @@ export const photosHomeSus = gql`
       }
     }
   }
-  ${fieldsPhotos}
+  ${fieldsPosts}
 `
 
 export const profileInfo = gql`
@@ -54,19 +70,25 @@ export const profileInfo = gql`
       id
       username
       email
-      photos (last: 21){
-        ...fieldsPhotos
+      posts (last: 21){
+        ...fieldsPosts
       }
       likes (last: 21) {
-        ...fieldsPhotos
+        ...fieldsPosts
       }
-      _photosMeta{
+      _postsMeta{
         count
       }
       _likesMeta{
         count
       }
+      _followersMeta{
+        count
+      },
+      _followingsMeta{
+        count
+      }
     }
   }
-  ${fieldsPhotos}
+  ${fieldsPosts}
 `

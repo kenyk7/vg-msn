@@ -2,14 +2,16 @@
   <nav class="nav has-shadow">
     <div class="container">
       <div class="nav-left">
-        <a class="nav-item is-tab is-active"><i class="fa fa-home"></i> &nbsp; Home</a>
+        <router-link :to="{name: 'Home'}" class="nav-item is-tab" exact active-class="is-active">
+          <i class="fa fa-home"></i> &nbsp; Home
+        </router-link>
         <a class="nav-item is-tab"><i class="fa fa-bolt"></i> &nbsp; Moments</a>
         <a class="nav-item is-tab"><i class="fa fa-bell-o"></i> &nbsp; Notifications</a>
         <a class="nav-item is-tab"><i class="fa fa-envelope"></i> &nbsp; Messages</a>
       </div>
 
       <div class="nav-center">
-        <a class="nav-item" href="#">
+        <a class="nav-item">
           <span class="icon">
             <i class="fa fa-twitter"></i>
           </span>
@@ -23,6 +25,14 @@
       </span>
 
       <div class="nav-right nav-menu">
+        <span class="nav-item">
+          <router-link :to="{name: 'Auth'}" class="button is-primary" active-class="is-active">
+            <span class="icon">
+              <i class="fa fa-sign-in"></i>
+            </span>
+            <span>Login</span>
+          </router-link>
+        </span>
         <span class="nav-item">
           <a class="button" >
             <span class="icon">

@@ -5,7 +5,7 @@ import { SubscriptionClient, addGraphQLSubscriptions } from 'subscriptions-trans
 const idProyect = 'cj8oqgyp300dm0119mdtxrifk'
 
 // YOUR_GRAPH_QL_ENDPOINT_HERE
-const wsClient = new SubscriptionClient('wss://subscriptions.graph.cool/v1/' + idProyect, {
+const wsClient = new SubscriptionClient('wss://subscriptions.us-west-2.graph.cool/v1/' + idProyect, {
   reconnect: true
 })
 

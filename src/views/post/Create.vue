@@ -34,8 +34,7 @@
 
 <script>
 /* global FormData, fetch */
-
-import { createPhoto } from './graph.cool.js'
+import { createPost } from './graph.cool.js'
 
 export default {
   data () {
@@ -63,7 +62,7 @@ export default {
 
       // Mutation
       this.$apollo.mutate({
-        mutation: createPhoto,
+        mutation: createPost,
         variables: {
           title,
           description,

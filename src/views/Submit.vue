@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import Create from './photo/Create.vue'
+import Create from './post/Create.vue'
 
 export default {
   components: {

@@ -1,6 +1,5 @@
 <template>
   <div class="login has-text-centered">
-    <h3 class="title is-4">{{msg}}</h3>
     <form @submit.prevent="createUser">
       <div class="field">
         <p class="control">
@@ -29,7 +28,6 @@ import { createAndLoginUser } from './graph.cool.js'
 export default {
   data () {
     return {
-      msg: 'Register',
       auth: {
         username: 'kenyk7',
         email: null,

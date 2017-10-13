@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Home from '@/views/Home'
 import Submit from '@/views/Submit'
 import Auth from '@/views/Auth'
-import Dash from '@/views/Dash'
 // Sub
 import Login from '@/views/auth/Login'
 import Register from '@/views/auth/Register'
@@ -22,11 +21,6 @@ export default new Router({
       path: '/submit',
       name: 'Submit',
       component: Submit
-    },
-    {
-      path: '/dash',
-      name: 'Dash',
-      component: Dash
     },
     {
       path: '/auth',

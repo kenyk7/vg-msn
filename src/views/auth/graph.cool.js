@@ -52,13 +52,3 @@ export const login = gql`
     }
   }
 `
-
-export const getUserId = gql`
-  query getUser ($id: ID!) {
-    User (id: $id) {
-      id
-      email
-      username
-    }
-  }
-`

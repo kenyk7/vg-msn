@@ -14,7 +14,7 @@ import './scss/default.scss'
 // Lstorage
 Vue.use(VueLocalStorage)
 // UI buefy
-Vue.use(Buefy)
+Vue.use(Buefy, {defaultIconPack: 'fa'})
 // Apollo graphql
 Vue.use(VueApollo)
 const apolloProvider = new VueApollo({

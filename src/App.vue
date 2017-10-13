@@ -1,9 +1,6 @@
 <template>
   <div>
-    <header-app>
-      <span slot="title">Yunga Photografy</span>
-      <span slot="subtitle">Santa Rosa - Jaén</span>
-    </header-app>
+    <header-app></header-app>
     <transition name="fade" appear mode="out-in">
       <router-view></router-view>
     </transition>
@@ -22,9 +19,10 @@ export default {
     }
   },
   created () {
+    this.$store.dispatch('getUsers', {userAuth: this.user.id})
     this.$store.dispatch('getProfile', {userId: this.user.id})
-    this.$store.dispatch('getPhotos', {userAuth: this.user.id})
-    this.$store.dispatch('subscribeToPhotos', {userAuth: this.user.id})
+    this.$store.dispatch('getPosts', {userAuth: this.user.id})
+    this.$store.dispatch('subscribeToPosts', {userAuth: this.user.id})
   }
 }
 </script>
