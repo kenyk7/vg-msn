@@ -13,7 +13,7 @@
               <strong>{{item.sendBy.username}}</strong>
               <small>@{{item.sendBy.username}}</small>
               <small style="float:right;">
-                {{item.postCreated}}
+                {{ item.postCreated | moment("from") }}
               </small>
               <br>
               {{item.content}}
@@ -29,16 +29,16 @@
               </a>
 
               <a v-if="item.likedPosts.length > 0" class="level-item" @click="removeLike(item)">
-                <b-icon icon="heart" class="is-danger is-small"></b-icon>
-                <span v-if="item._likedPostsMeta.count > 0" class="tag is-light">
+                <b-icon icon="heart" class="is-danger is-small"></b-icon> &nbsp;
+                <small v-if="item._likedPostsMeta.count > 0" class="has-text-danger">
                   {{item._likedPostsMeta.count}}
-                </span>
+                </small>
               </a>
               <a v-else class="level-item" @click="addLike(item)">
-                <b-icon icon="heart" class="is-small"></b-icon>
-                <span v-if="item._likedPostsMeta.count > 0" class="tag is-light">
+                <b-icon icon="heart" class="is-small"></b-icon> &nbsp;
+                <small v-if="item._likedPostsMeta.count > 0" >
                   {{item._likedPostsMeta.count}}
-                </span>
+                </small>
               </a>
             </div>
           </nav>

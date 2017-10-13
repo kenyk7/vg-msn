@@ -9,8 +9,14 @@ import Buefy from 'buefy'
 import VueApollo from 'vue-apollo'
 import apolloClient from './apollo'
 
+import moment from 'moment'
+import vueMoment from 'vue-moment'
+import 'moment/locale/es'
+
 import './scss/default.scss'
 
+// vue moment
+Vue.use(vueMoment, { moment })
 // Lstorage
 Vue.use(VueLocalStorage)
 // UI buefy
