@@ -1,58 +1,37 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import apolloClient from '@/apollo'
 
-import apolloClient from './../apollo'
+import post from './modules/post'
+import user from './modules/user'
 
 import {
-  postsHome,
-  postsHomeSus,
   profileInfo,
-  usersQuery
-} from './../apollo/queries'
+  userAuthSubs
+} from '@/graphql'
 
 Vue.use(Vuex)
 const DEBUG = process.env.NODE_ENV === 'development'
 
-let photosSubscriptionObserver
-
 const state = {
-  profile: {},
-  posts: [],
-  users: []
+  isAuth: false,
+  userAuth: null,
+  profile: {}
 }
 
 const getters = {
-  posts: state => state.posts
+  profile: state => state.profile
 }
 
 const mutations = {
-  SET_PROFILE (state, data) {
-    state.profile = data
+  setAuth (state, data) {
+    state.isAuth = data
   },
-  SET_POSTS (state, posts) {
-    // having an object instead of an array makes the other methods easier
-    // since we can use Vue.set() and Vue.delete()
-    const object = {}
-    posts.map((post) => {
-      object[post.id] = post
-    })
-    state.posts = object
+  setUserAuth (state, user) {
+    state.userAuth = user
   },
-  SET_USERS (state, users) {
-    const object = {}
-    users.map((user) => {
-      object[user.id] = user
-    })
-    state.users = object
-  },
-  ADD_POST (state, post) {
-    Vue.set(state.posts, post.id, post)
-  },
-  UPDATE_POST (state, post) {
-    Vue.set(state.posts, post.id, post)
-  },
-  DELETE_POST (state, post) {
-    Vue.delete(state.posts, post.id)
+  SET_PROFILE (state, user) {
+    state.profile = user
   }
 }
 
@@ -62,36 +41,20 @@ const actions = {
       context.commit('SET_PROFILE', result.data.User)
     })
   },
-  getUsers (context, payload) {
-    apolloClient.query({query: usersQuery, variables: payload}).then((result) => {
-      context.commit('SET_USERS', result.data.allUsers)
-    })
-  },
-  getPosts (context, payload) {
-    apolloClient.query({query: postsHome, variables: payload}).then((result) => {
-      context.commit('SET_POSTS', result.data.allPosts)
-    })
-  },
-  subscribeToPosts (context, payload) {
-    photosSubscriptionObserver = apolloClient.subscribe({
-      query: postsHomeSus,
+  subscribeToUserAuth (context, payload) {
+    apolloClient.subscribe({
+      query: userAuthSubs,
       variables: payload
     }).subscribe({
       next (data) {
         // mutation will say the type of GraphQL mutation `CREATED`, `UPDATED` or `DELETED`
-        console.log(data.Post.mutation)
+        console.log(data.User.mutation)
         // node is the actual data of the result of the GraphQL mutation
-        console.log(data.Post)
+        console.log(data.User)
         // then call your store mutation as usual
-        switch (data.Post.mutation) {
-          case 'CREATED':
-            context.commit('ADD_POST', data.Post.node)
-            break
+        switch (data.User.mutation) {
           case 'UPDATED':
-            context.commit('UPDATE_POST', data.Post.node)
-            break
-          case 'DELETED':
-            context.commit('DELETE_POST', data.Post.previousValues)
+            context.commit('SET_PROFILE', data.User.node)
             break
         }
       },
@@ -99,13 +62,6 @@ const actions = {
         console.log(error)
       }
     })
-  },
-  // You call this action to stop the subscription
-  unsubscribeFromPhotos (context) {
-    if (photosSubscriptionObserver) {
-      photosSubscriptionObserver.unsubscribe()
-      photosSubscriptionObserver = null
-    }
   }
 }
 
@@ -114,5 +70,9 @@ export default new Vuex.Store({
   getters,
   mutations,
   actions,
+  modules: {
+    post,
+    user
+  },
   strict: DEBUG
 })

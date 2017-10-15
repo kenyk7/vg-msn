@@ -1,6 +1,6 @@
 <template>
-  <div class="card is-fullwidth">
-    <header class="card-header" style="background-image: url(https://picsum.photos/200/300)">
+  <div class="card card-profile is-fullwidth">
+    <header class="card-header" style="background-image: url(https://picsum.photos/500/200?random)">
     </header>
     <div class="card-content">
       <a class="card-avatar">
@@ -48,3 +48,9 @@ export default{
   }
 }
 </script>
+<style scoped lang="scss">
+.card-profile{
+  overflow: hidden;
+  border-radius: 4px;
+}
+</style>

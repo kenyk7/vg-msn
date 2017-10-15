@@ -22,7 +22,7 @@
           <nav class="level media-actions">
             <div class="level-left">
               <a class="level-item">
-                <span class="icon is-small"><i class="fa fa-reply"></i></span>
+                <span class="icon is-small"><i class="fa fa-comment"></i></span>
               </a>
               <a class="level-item">
                 <span class="icon is-small"><i class="fa fa-retweet"></i></span>
@@ -30,15 +30,15 @@
 
               <a v-if="item.likedPosts.length > 0" class="level-item" @click="removeLike(item)">
                 <b-icon icon="heart" class="is-danger is-small"></b-icon> &nbsp;
-                <small v-if="item._likedPostsMeta.count > 0" class="has-text-danger">
+                <span v-if="item._likedPostsMeta.count > 0" class="has-text-danger">
                   {{item._likedPostsMeta.count}}
-                </small>
+                </span>
               </a>
               <a v-else class="level-item" @click="addLike(item)">
                 <b-icon icon="heart" class="is-small"></b-icon> &nbsp;
-                <small v-if="item._likedPostsMeta.count > 0" >
+                <span v-if="item._likedPostsMeta.count > 0" >
                   {{item._likedPostsMeta.count}}
-                </small>
+                </span>
               </a>
             </div>
           </nav>
@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     posts () {
-      return this.$store.state.posts
+      return this.$store.state.post.posts
     }
   },
   methods: {
@@ -76,14 +76,10 @@ export default {
           postId: item.id,
           userId: _self.user.id
         }
-      }).then((data) => {
-        this.$toast.open({
-          message: 'Toggle like',
-          type: 'is-success'
-        })
       }).catch((error) => {
+        console.log(error)
         this.$toast.open({
-          message: error.message,
+          message: 'Error!',
           type: 'is-danger'
         })
       })
@@ -127,6 +123,13 @@ export default {
 }
 </script>
 
-<style>
-
+<style  lang="scss">
+.media-actions{
+  margin-top: -10px;
+  margin-bottom: -10px;
+  a{
+    padding: 5px;
+    margin-right: 15px;
+  }
+}
 </style>

@@ -11,7 +11,7 @@ import apolloClient from './apollo'
 
 import moment from 'moment'
 import vueMoment from 'vue-moment'
-import 'moment/locale/es'
+// import 'moment/locale/es'
 
 import './scss/default.scss'
 

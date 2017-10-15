@@ -20,7 +20,7 @@ networkInterface.use([{
         Authorization: 'Bearer ' + Vue.ls.get('authToken')
       }
     }
-    req.options.headers['x-graphcool-source'] = 'app:Yunga'
+    req.options.headers['x-graphcool-source'] = 'app:SocialGraphQl'
     next()
   }
 }])

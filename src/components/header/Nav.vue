@@ -25,7 +25,15 @@
       </span>
 
       <div class="nav-right nav-menu">
-        <span class="nav-item">
+        <span v-if="user" class="nav-item">
+          <router-link :to="{name: 'Auth'}" class="button is-primary" active-class="is-active">
+            <span class="icon">
+              <i class="fa fa-user"></i>
+            </span>
+            <span>Profile</span>
+          </router-link>
+        </span>
+        <span v-if="!user" class="nav-item">
           <router-link :to="{name: 'Auth'}" class="button is-primary" active-class="is-active">
             <span class="icon">
               <i class="fa fa-sign-in"></i>
@@ -33,22 +41,37 @@
             <span>Login</span>
           </router-link>
         </span>
-        <span class="nav-item">
-          <a class="button" >
+        <span v-else class="nav-item">
+          <a class="button" @click="activeTweetForm = true">
             <span class="icon">
               <i class="fa fa-twitter"></i>
             </span>
             <span>Tweet</span>
           </a>
         </span>
+        <b-modal :active.sync="activeTweetForm" has-modal-card>
+          <modal-post></modal-post>
+        </b-modal>
       </div>
     </div>
   </nav>
 </template>
 
 <script>
+import modalPost from '../ModalPost'
 export default {
   components: {
+    modalPost
+  },
+  data () {
+    return {
+      activeTweetForm: false
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.state.userAuth
+    }
   }
 }
 </script>

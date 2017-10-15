@@ -29,9 +29,9 @@ export default {
   data () {
     return {
       auth: {
-        username: 'kenyk7',
+        username: null,
         email: null,
-        password: 'secret123'
+        password: null
       }
     }
   },
@@ -39,9 +39,9 @@ export default {
     createUser () {
       if (!this.auth.email && !this.auth.password) return
       // Mutation
-      const _self = this
       const email = this.auth.email
-      const username = this.auth.username
+      const getUsername = email.split('@')[0]
+      const username = this.auth.username || getUsername
       const password = this.auth.password
       this.$apollo.mutate({
         mutation: createAndLoginUser,
@@ -52,16 +52,13 @@ export default {
         }
       }).then((res) => {
         // Result
-        console.log('created user', res)
         this.$toast.open({
           message: 'User create and login success',
           type: 'is-success'
         })
         this.$ls.set('authToken', res.data.signinUser.token)
         this.$ls.set('authUser', res.data.signinUser.user)
-        setTimeout(() => {
-          _self.$router.push({name: 'Hello'})
-        }, 3000)
+        this.$router.push({name: 'Home'})
       }).catch((error) => {
         // Error
         console.error(error)

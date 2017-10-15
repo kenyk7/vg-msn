@@ -1,10 +1,41 @@
 <template>
-  <div class="auth">
+  <div class="pag-auth">
+    <section class="hero is-medium" style="background-image: url(https://picsum.photos/1500/500?random)">
+      <div class="hero-body">
+      </div>
+    </section>
 		<div class="main-body">
 		  <div class="container">
-        <div v-if="user">
-          <strong>User: </strong> {{user}} <br>
-          <strong>Token: </strong> {{token}} <br>
+        <div v-if="user" class="pag-profile">
+          <div class="user-caption">
+            <div class="user-caption__img">
+              <img src="https://placeimg.com/250/250/people" :alt="profile.username"  width="150">
+            </div>
+            <h2 class="title is-2">@{{profile.username}}</h2>
+          </div>
+          <div class="pag-profile__tags is-hidden-">
+            <b-field grouped group-multiline>
+              <div class="control">
+                <b-taglist attached>
+                  <b-tag type="is-dark">
+                    <b-icon icon="file-text"></b-icon>
+                    Post
+                  </b-tag>
+                  <b-tag type="is-success">{{profile._postsMeta.count}}</b-tag>
+                </b-taglist>
+              </div>
+              <div class="control">
+                <b-taglist attached>
+                  <b-tag type="is-dark">
+                    <b-icon icon="heart"></b-icon>
+                    Likes
+                  </b-tag>
+                  <b-tag type="is-success">{{profile._likesMeta.count}}</b-tag>
+                </b-taglist>
+              </div>
+            </b-field>
+          </div>
+          <br>
           <p>
             <button class="button is-primary" type="button" @click="logout">Logout</button>
           </p>
@@ -33,15 +64,10 @@
 import jwtDecode from 'jwt-decode'
 
 export default {
-  components: {
-  },
-  data () {
-    return {
-      user: this.$ls.get('authUser'),
-      token: null
-    }
-  },
   computed: {
+    user () {
+      return this.$store.state.userAuth
+    },
     profile () {
       return this.$store.state.profile
     }
@@ -51,24 +77,50 @@ export default {
   },
   methods: {
     logout () {
-      this.user = null
+      this.$store.commit('setAuth', false)
+      this.$store.commit('setUserAuth', null)
       this.$ls.remove('authToken')
       this.$ls.remove('authUser')
     }
   }
 }
 </script>
-
-<style lang="scss">
-	.auth-body{
-	  background-color: #f9f9f9;
-		max-width: 320px;
-		margin-left: auto;
-		margin-right: auto;
-		padding: 30px 20px;
-		margin-top: 10px;
-		border: 1px solid #ccc;
-		border-radius: 3px;
-		box-shadow: 0 2px 3px rgba(#000, 0.1);
-	}
+<style lang="scss" scoped>
+.pag-auth{
+  .hero{
+    background-position: center center;
+  }
+}
+.auth-body{
+  background-color: #f9f9f9;
+  max-width: 320px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 30px 20px;
+  margin-top: -100px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  box-shadow: 0 2px 3px rgba(#000, 0.1);
+}
+.pag-profile{
+  margin-top: -125px;
+  text-align: center;
+  margin-bottom: 1rem;
+  &__tags{
+    .field{
+      justify-content: center;
+    }
+  }
+}
+.user-caption{
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  &__img{
+    img{
+      border: 4px solid #fff;
+      border-radius: 50%;
+      box-shadow: 0 2px 3px rgba(#000, 0.1);
+    }
+  }
+}
 </style>

@@ -19,10 +19,20 @@ export default {
     }
   },
   created () {
-    this.$store.dispatch('getUsers', {userAuth: this.user.id})
-    this.$store.dispatch('getProfile', {userId: this.user.id})
-    this.$store.dispatch('getPosts', {userAuth: this.user.id})
-    this.$store.dispatch('subscribeToPosts', {userAuth: this.user.id})
+    const _self = this
+    if (this.user) {
+      _self.$store.commit('setAuth', true)
+      _self.$store.commit('setUserAuth', _self.user)
+      _self.$store.dispatch('getUsers', {userAuth: _self.user.id})
+      _self.$store.dispatch('getProfile', {userAuth: _self.user.id})
+      _self.$store.dispatch('getPosts', {userAuth: _self.user.id})
+      // subscribe entities
+      _self.$store.dispatch('subscribeToPosts', {userAuth: _self.user.id})
+      _self.$store.dispatch('subscribeToUsersFollow', {userAuth: _self.user.id})
+      _self.$store.dispatch('subscribeToUserAuth', {userAuth: _self.user.id})
+    } else {
+      _self.$router.push({name: 'Auth'})
+    }
   }
 }
 </script>

@@ -7,10 +7,10 @@
           <div class="spacer"></div>
           <div class="box trending">
             <p class="trend-title"><span class="title is-5">Trends</span></p>
-            <p class="trend-hashtag">
-              <a href="#">#hashtag1</a>
-              <br>13k statuses
-            </p>
+            <div v-for="item in posts" class="trend-hashtag">
+              <a href="#">{{item.content}}</a>
+              {{item._likedPostsMeta.count}} Likes
+            </div>
           </div>
         </div>
         <div class="column is-6">
@@ -27,18 +27,20 @@
                 </div>
               </div>
               <div class="column is-9">
-                <p style="margin-top: -5px">
+                <p style="margin-top: -6px">
                   <a href="#">
                     <strong>{{item.username}}</strong>
                     &commat;{{item.username}}
                   </a>
                 </p>
-                <a class="button is-danger is-small" v-if="item.followers.length > 0">
+                <a v-if="item.followers.length > 0" @click="unFollow(item)"
+                  class="button is-danger is-small">
                   <span>
                     - Seguir
                   </span>
                 </a>
-                <a v-else class="button is-primary is-small">
+                <a v-else @click="follow(item)"
+                class="button is-primary is-small">
                   <span>
                     + Seguir
                   </span>
@@ -56,32 +58,62 @@
 import postList from './post/List.vue'
 import cardProfile from './partials/CardProfile.vue'
 
+import { addToUserOnUser, removeFromUserOnUser, updateUserFake } from './post/graph.cool.js'
 export default {
   components: {
     postList,
     cardProfile
   },
   computed: {
+    // userAuth
+    user () {
+      return this.$store.state.userAuth
+    },
     users () {
-      return this.$store.state.users
+      return this.$store.state.user.users
     },
     posts () {
-      return this.$store.state.posts
+      return this.$store.state.post.posts
+    }
+  },
+  methods: {
+    follow (item) {
+      this.toggleFollow(item, addToUserOnUser)
     },
-    profile () {
-      return this.$store.state.profile
+    unFollow (item) {
+      this.toggleFollow(item, removeFromUserOnUser)
+    },
+    toggleFollow (item, mutate) {
+      const _self = this
+      this.$apollo.mutate({
+        mutation: mutate,
+        variables: {
+          idFrom: _self.user.id,
+          idTo: item.id
+        }
+      }).catch((error) => {
+        console.log(error)
+        this.$toast.open({
+          message: 'Error!',
+          type: 'is-danger'
+        })
+      })
+      setTimeout(() => {
+        // fake mutate
+        _self.$apollo.mutate({
+          mutation: updateUserFake,
+          variables: {
+            id: item.id
+          }
+        })
+        _self.$apollo.mutate({
+          mutation: updateUserFake,
+          variables: {
+            id: _self.user.id
+          }
+        })
+      }, 700)
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-  .media-actions{
-    margin-top: -10px;
-    margin-bottom: -10px;
-    a{
-      padding: 5px;
-      margin-right: 10px;
-    }
-  }
-</style>
