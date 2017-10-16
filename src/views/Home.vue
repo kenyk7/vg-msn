@@ -103,12 +103,6 @@ export default {
         _self.$apollo.mutate({
           mutation: updateUserFake,
           variables: {
-            id: item.id
-          }
-        })
-        _self.$apollo.mutate({
-          mutation: updateUserFake,
-          variables: {
             id: _self.user.id
           }
         })

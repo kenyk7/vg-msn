@@ -49,14 +49,20 @@
 </template>
 
 <script>
-import { addToUserOnPost, removeFromUserOnPost, updatePostFake, deletePost, updatePostActive } from './graph.cool.js'
+import {
+  addToUserOnPost,
+  removeFromUserOnPost,
+  deletePost,
+  updatePostActive,
+  updatePostFake,
+  updateUserFake
+} from './graph.cool.js'
+
 export default {
-  data () {
-    return {
-      user: this.$ls.get('authUser')
-    }
-  },
   computed: {
+    user () {
+      return this.$store.state.userAuth
+    },
     posts () {
       return this.$store.state.post.posts
     }
@@ -89,6 +95,12 @@ export default {
           mutation: updatePostFake,
           variables: {
             id: item.id
+          }
+        })
+        _self.$apollo.mutate({
+          mutation: updateUserFake,
+          variables: {
+            id: _self.user.id
           }
         })
       }, 700)

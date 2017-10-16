@@ -32,6 +32,7 @@ const createPost = gql`
     }
   }
 `
+import { updateUserFake } from '@/views/post/graph.cool.js'
 
 export default {
   data () {
@@ -48,6 +49,7 @@ export default {
   },
   methods: {
     save () {
+      const _self = this
       if (!this.post.content) return
       // by user
       const content = this.post.content
@@ -69,6 +71,15 @@ export default {
           message: 'Send post',
           type: 'is-success'
         })
+        setTimeout(() => {
+          // fake mutate
+          _self.$apollo.mutate({
+            mutation: updateUserFake,
+            variables: {
+              id: _self.user.id
+            }
+          })
+        }, 700)
       }).catch((error) => {
         // Error
         console.log(error)
@@ -77,6 +88,7 @@ export default {
           type: 'is-danger'
         })
       })
+      this.$parent.close()
     }
   }
 }
