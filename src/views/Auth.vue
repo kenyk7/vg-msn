@@ -18,8 +18,7 @@
               <div class="control">
                 <b-taglist attached>
                   <b-tag type="is-dark">
-                    <b-icon icon="file-text"></b-icon>
-                    Post
+                    Posts
                   </b-tag>
                   <b-tag type="is-success">{{profile._postsMeta.count}}</b-tag>
                 </b-taglist>
@@ -27,10 +26,11 @@
               <div class="control">
                 <b-taglist attached>
                   <b-tag type="is-dark">
-                    <b-icon icon="heart"></b-icon>
                     Likes
                   </b-tag>
-                  <b-tag type="is-success">{{profile._likesMeta.count}}</b-tag>
+                  <b-tag type="is-success">
+                    {{profile._likesMeta.count}}
+                  </b-tag>
                 </b-taglist>
               </div>
             </b-field>

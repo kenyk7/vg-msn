@@ -100,6 +100,14 @@ export default {
       })
       setTimeout(() => {
         // fake mutate
+        // for update list users
+        _self.$apollo.mutate({
+          mutation: updateUserFake,
+          variables: {
+            id: item.id
+          }
+        })
+        // for update profile
         _self.$apollo.mutate({
           mutation: updateUserFake,
           variables: {

@@ -1,6 +1,6 @@
 .section.main {
   background-color: #f5f8fa;
-  height: calc(100vh - 55px);
+  min-height: calc(100vh - 55px);
 }
 .card-header {
   background-image: url("http://placehold.it/600x200");

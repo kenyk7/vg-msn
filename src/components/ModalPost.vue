@@ -73,6 +73,7 @@ export default {
         })
         setTimeout(() => {
           // fake mutate
+          // for update user auth
           _self.$apollo.mutate({
             mutation: updateUserFake,
             variables: {
