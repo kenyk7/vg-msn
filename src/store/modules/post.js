@@ -3,13 +3,17 @@ import apolloClient from '@/apollo'
 
 import {
   postsHome,
-  postsHomeSubs
+  postsHomeSubs,
+  myPosts,
+  myPostsLikes
 } from '@/graphql'
 
 let postsSubscriptionObserver
 
 const state = {
-  posts: []
+  posts: [],
+  myPosts: [],
+  myPostsLikes: []
 }
 
 const mutations = {
@@ -30,6 +34,24 @@ const mutations = {
   },
   DELETE_POST (state, post) {
     Vue.delete(state.posts, post.id)
+  },
+  SET_MY_POSTS (state, posts) {
+    // having an object instead of an array makes the other methods easier
+    // since we can use Vue.set() and Vue.delete()
+    const object = {}
+    posts.map((post) => {
+      object[post.id] = post
+    })
+    state.myPosts = object
+  },
+  SET_MY_POSTS_LIKES (state, posts) {
+    // having an object instead of an array makes the other methods easier
+    // since we can use Vue.set() and Vue.delete()
+    const object = {}
+    posts.map((post) => {
+      object[post.id] = post
+    })
+    state.myPostsLikes = object
   }
 }
 
@@ -69,6 +91,17 @@ const actions = {
       postsSubscriptionObserver.unsubscribe()
       postsSubscriptionObserver = null
     }
+  },
+  getMyPosts (context, payload) {
+    console.log(context.getters.profile)
+    apolloClient.query({query: myPosts, variables: payload}).then((result) => {
+      context.commit('SET_MY_POSTS', result.data.allPosts)
+    })
+  },
+  getMyPostsLikes (context, payload) {
+    apolloClient.query({query: myPostsLikes, variables: payload}).then((result) => {
+      context.commit('SET_MY_POSTS_LIKES', result.data.allPosts)
+    })
   }
 }
 

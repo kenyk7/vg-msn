@@ -21,15 +21,20 @@ export default {
   created () {
     const _self = this
     if (this.user) {
+      const payload = {
+        userAuth: _self.user.id
+      }
       _self.$store.commit('setAuth', true)
       _self.$store.commit('setUserAuth', _self.user)
-      _self.$store.dispatch('getUsers', {userAuth: _self.user.id})
-      _self.$store.dispatch('getProfile', {userAuth: _self.user.id})
-      _self.$store.dispatch('getPosts', {userAuth: _self.user.id})
+      _self.$store.dispatch('getUsers', payload)
+      _self.$store.dispatch('getProfile', payload)
+      _self.$store.dispatch('getPosts', payload)
+      _self.$store.dispatch('getMyPosts', payload)
+      _self.$store.dispatch('getMyPostsLikes', payload)
       // subscribe entities
-      _self.$store.dispatch('subscribeToPosts', {userAuth: _self.user.id})
-      _self.$store.dispatch('subscribeToUsersFollow', {userAuth: _self.user.id})
-      _self.$store.dispatch('subscribeToUserAuth', {userAuth: _self.user.id})
+      _self.$store.dispatch('subscribeToPosts', payload)
+      _self.$store.dispatch('subscribeToUsersFollow', payload)
+      _self.$store.dispatch('subscribeToUserAuth', payload)
     } else {
       _self.$router.push({name: 'Auth'})
     }
