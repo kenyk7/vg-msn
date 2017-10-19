@@ -19,7 +19,9 @@ const mutations = {
     state.users = object
   },
   ADD_USER (state, user) {
-    Vue.set(state.users, user.id, user)
+    const object = {}
+    object[user.id] = user
+    state.users = {...object, ...state.users}
   },
   UPDATE_USER (state, user) {
     Vue.set(state.users, user.id, user)

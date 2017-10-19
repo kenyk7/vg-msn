@@ -27,7 +27,9 @@ const mutations = {
     state.posts = object
   },
   ADD_POST (state, post) {
-    Vue.set(state.posts, post.id, post)
+    const object = {}
+    object[post.id] = post
+    state.posts = {...object, ...state.posts}
   },
   UPDATE_POST (state, post) {
     Vue.set(state.posts, post.id, post)
@@ -93,7 +95,6 @@ const actions = {
     }
   },
   getMyPosts (context, payload) {
-    console.log(context.getters.profile)
     apolloClient.query({query: myPosts, variables: payload}).then((result) => {
       context.commit('SET_MY_POSTS', result.data.allPosts)
     })
