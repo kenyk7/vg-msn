@@ -15,6 +15,9 @@ const fAllUsers = gql`
       id
       username
     }
+    _followersMeta{
+      count
+    }
   }
 `
 export const usersQuery = gql`
@@ -59,7 +62,7 @@ const fAuthUser = gql`
     }
     _followersMeta{
       count
-    },
+    }
     _followingsMeta{
       count
     }

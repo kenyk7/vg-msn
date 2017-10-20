@@ -15,7 +15,7 @@ export default {
   },
   data () {
     return {
-      user: this.$ls.get('authUser')
+      user: this.$ls.get('GC_AUTH_USER')
     }
   },
   created () {

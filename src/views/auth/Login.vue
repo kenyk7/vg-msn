@@ -43,8 +43,8 @@ export default {
           password
         }
       }).then((res) => {
-        this.$ls.set('authToken', res.data.signinUser.token)
-        this.$ls.set('authUser', res.data.signinUser.user)
+        this.$ls.set('GC_AUTH_TOKEN', res.data.signinUser.token)
+        this.$ls.set('GC_AUTH_USER', res.data.signinUser.user)
         this.$toast.open({
           message: 'Login Success',
           type: 'is-success'

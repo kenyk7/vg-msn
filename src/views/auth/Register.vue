@@ -56,8 +56,8 @@ export default {
           message: 'User create and login success',
           type: 'is-success'
         })
-        this.$ls.set('authToken', res.data.signinUser.token)
-        this.$ls.set('authUser', res.data.signinUser.user)
+        this.$ls.set('GC_AUTH_TOKEN', res.data.signinUser.token)
+        this.$ls.set('GC_AUTH_USER', res.data.signinUser.user)
         this.$router.push({name: 'Home'})
       }).catch((error) => {
         // Error

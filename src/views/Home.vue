@@ -29,8 +29,7 @@
               <div class="column is-9">
                 <p style="margin-top: -6px">
                   <a href="#">
-                    <strong>{{item.username}}</strong>
-                    &commat;{{item.username}}
+                    <strong>@{{item.username}}</strong> ({{item._followersMeta.count}})
                   </a>
                 </p>
                 <a v-if="item.followers.length > 0" @click="unFollow(item)"

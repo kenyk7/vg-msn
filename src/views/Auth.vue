@@ -73,14 +73,14 @@ export default {
     }
   },
   mounted () {
-    this.token = jwtDecode(this.$ls.get('authToken'))
+    this.token = jwtDecode(this.$ls.get('GC_AUTH_TOKEN'))
   },
   methods: {
     logout () {
       this.$store.commit('setAuth', false)
       this.$store.commit('setUserAuth', null)
-      this.$ls.remove('authToken')
-      this.$ls.remove('authUser')
+      this.$ls.remove('GC_AUTH_TOKEN')
+      this.$ls.remove('GC_AUTH_USER')
     }
   }
 }
