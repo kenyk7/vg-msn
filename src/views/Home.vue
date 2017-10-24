@@ -7,20 +7,20 @@
           <div class="spacer"></div>
           <div class="box trending">
             <p class="trend-title"><span class="title is-5">Trends</span></p>
-            <div v-for="item in posts" class="trend-hashtag">
-              <a href="#">{{item.content}}</a>
+            <div v-for="item in posts" class="trend-hashtag" :key="item.id">
+              <a href="#">{{item.content}}</a> {{index}}
               {{item._likedPostsMeta.count}} Likes
             </div>
           </div>
         </div>
         <div class="column is-6">
-          <post-list></post-list>
+          <app-quotes></app-quotes>
         </div>
         <div class="column is-3">
           <div class="box">
             <p><span class="title is-5">Who to follow</span></p>
             <hr>
-            <div class="columns" v-for="item in users">
+            <div class="columns" v-for="item in users" :key="item.id">
               <div class="column is-3 is-marginless">
                 <div class="image">
                   <img src="https://placeimg.com/250/250/people">
@@ -55,12 +55,14 @@
 
 <script>
 import postList from './post/List.vue'
+import appQuotes from './post/Quotes.vue'
 import cardProfile from './partials/CardProfile.vue'
 
 import { addToUserOnUser, removeFromUserOnUser, updateUserFake } from './post/graph.cool.js'
 export default {
   components: {
     postList,
+    appQuotes,
     cardProfile
   },
   computed: {

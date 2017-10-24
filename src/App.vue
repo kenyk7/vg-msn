@@ -46,10 +46,6 @@ export default {
   .main-body{
     padding: 30px 0;
   }
-  .container{
-    width: 80%;
-    margin: 0 auto;
-  }
   .fade-enter-active, .fade-leave-active {
     transition: all .5s;
   }
