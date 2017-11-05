@@ -14,6 +14,7 @@ const state = {
   hasMore: true,
   perPage: 7,
   posts: [], // {}
+  newPosts: [], // {}
   myPosts: [], // {}
   myPostsLikes: [] // {}
 }
@@ -22,6 +23,7 @@ const getters = {
   hasMore: (state) => state.hasMore,
   perPage: (state) => state.perPage,
   posts: (state) => state.posts,
+  newPosts: (state) => state.newPosts,
   myPosts: (state) => state.myPosts,
   myPostsLikes: (state) => state.myPostsLikes
 }
@@ -42,7 +44,11 @@ const mutations = {
   ADD_POST (state, post) {
     const object = {}
     object[post.id] = post
-    state.posts = {...object, ...state.posts}
+    state.newPosts = {...object, ...state.newPosts}
+  },
+  MERGE_NEW_POSTS (state) {
+    state.posts = {...state.newPosts, ...state.posts}
+    state.newPosts = []
   },
   UPDATE_POST (state, post) {
     Vue.set(state.posts, post.id, post)

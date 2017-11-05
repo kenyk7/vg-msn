@@ -13,6 +13,11 @@
           </div>
         </div>
         <div class="column is-6">
+          <p v-if="hasNews > 0">
+            <button class="button is-primary is-fullwidth" @click="mergeNewPosts()">
+              See {{hasNews}} new quotes
+            </button>
+          </p>
           <app-quotes></app-quotes>
           <p class="has-text-centered">
             <button v-if="hasMore" class="button is-primary" @click="loadMore()">Ver más</button>
@@ -39,7 +44,12 @@ export default {
     cardProfile,
     cardWhoFollow
   },
-  computed: mapGetters(['user', 'posts', 'hasMore']),
+  computed: {
+    ...mapGetters(['user', 'posts', 'newPosts', 'hasMore']),
+    hasNews () {
+      return Object.keys(this.newPosts).length
+    }
+  },
   mounted () {
     const _self = this
     window.onscroll = function (e) {
@@ -49,6 +59,9 @@ export default {
     }
   },
   methods: {
+    mergeNewPosts () {
+      this.$store.commit('MERGE_NEW_POSTS')
+    },
     loadMore () {
       if (!this.hasMore) return
       const keys = Object.keys(this.posts)
