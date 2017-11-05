@@ -4,7 +4,7 @@
     </header>
     <div class="card-content">
       <a class="card-avatar">
-        <img src="https://placeimg.com/140/140/people" class="card-avatar-img">
+        <img :src="'https://via.placeholder.com/250x250?text=@' + user.username" class="card-avatar-img">
       </a>
       <div class="card-user">
         <div class="card-user-name">

@@ -13,7 +13,7 @@
         <div class="quote__header">
           <div class="quote__user">
             <figure class="quote__user-img">
-              <img src="https://placeimg.com/140/140/people" alt="Image" width="64">
+              <img :src="'https://placeimg.com/140/140/animals?' + item.sendBy.username" alt="Image" width="64">
             </figure>
           </div>
           <div class="quote__user-caption">

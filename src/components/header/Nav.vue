@@ -26,7 +26,7 @@
 
       <div class="nav-right nav-menu">
         <span v-if="user" class="nav-item">
-          <router-link :to="{name: 'Auth'}" class="button is-primary" active-class="is-active">
+          <router-link :to="{name: 'Profile'}" class="button" active-class="is-active">
             <span class="icon">
               <i class="fa fa-user"></i>
             </span>
@@ -34,7 +34,7 @@
           </router-link>
         </span>
         <span v-if="!user" class="nav-item">
-          <router-link :to="{name: 'Auth'}" class="button is-primary" active-class="is-active">
+          <router-link :to="{name: 'Login'}" class="button is-primary" active-class="is-active">
             <span class="icon">
               <i class="fa fa-sign-in"></i>
             </span>
@@ -42,7 +42,7 @@
           </router-link>
         </span>
         <span v-else class="nav-item">
-          <a class="button" @click="activeTweetForm = true">
+          <a class="button is-primary" @click="activeTweetForm = true">
             <span class="icon">
               <i class="fa fa-twitter"></i>
             </span>

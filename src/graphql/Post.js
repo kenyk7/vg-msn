@@ -17,7 +17,7 @@ export const postsHome = gql`
 // ignore publish
 export const myPosts = gql`
   query allPosts ($userAuth: ID!) {
-    allPosts(first: 2, orderBy: postCreated_DESC, filter: {sendBy: {id: $userAuth}}) {
+    allPosts(first: 7, orderBy: postCreated_DESC, filter: {sendBy: {id: $userAuth}}) {
       ...fieldsPosts
       likedPosts(filter: {id: $userAuth}){
         id
@@ -29,7 +29,7 @@ export const myPosts = gql`
 
 export const myPostsLikes = gql`
   query allPosts ($userAuth: ID!) {
-    allPosts(first: 2, orderBy: postCreated_DESC, filter: {likedPosts_some: {id: $userAuth}}) {
+    allPosts(first: 7, orderBy: postCreated_DESC, filter: {likedPosts_some: {id: $userAuth}}) {
       ...fieldsPosts
       likedPosts(filter: {id: $userAuth}){
         id

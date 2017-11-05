@@ -26,7 +26,7 @@ export default {
       token: null,
       auth: {
         email: null,
-        password: 'secret123'
+        password: null
       }
     }
   },
@@ -49,6 +49,7 @@ export default {
           message: 'Login Success',
           type: 'is-success'
         })
+        this.$store.commit('setAuth', true)
         this.$router.push({name: 'Home'})
       }).catch((error) => {
         console.error(error)

@@ -15,17 +15,30 @@ export default {
   },
   data () {
     return {
-      user: this.$ls.get('GC_AUTH_USER')
+      userLs: this.$ls.get('GC_AUTH_USER')
+    }
+  },
+  computed: {
+    isAuth () {
+      return this.$store.state.isAuth
     }
   },
   created () {
     const _self = this
-    if (this.user) {
+    if (this.userLs) {
+      _self.$store.commit('setAuth', true)
+    } else {
+      _self.$store.commit('setAuth', false)
+    }
+  },
+  methods: {
+    getAllData () {
+      const _self = this
+      const userLs = this.$ls.get('GC_AUTH_USER')
       const payload = {
-        userAuth: _self.user.id,
+        userAuth: userLs.id,
         after: null
       }
-      _self.$store.commit('setAuth', true)
       _self.$store.dispatch('getUser', payload)
       _self.$store.dispatch('getUsers', payload)
       _self.$store.dispatch('getPosts', payload)
@@ -35,8 +48,14 @@ export default {
       _self.$store.dispatch('subscribeToPosts', payload)
       _self.$store.dispatch('subscribeToUsersFollow', payload)
       _self.$store.dispatch('subscribeToUserAuth', payload)
-    } else {
-      _self.$router.push({name: 'Auth'})
+    }
+  },
+  watch: {
+    isAuth (to, from) {
+      const _self = this
+      if (to) {
+        _self.getAllData()
+      }
     }
   }
 }
