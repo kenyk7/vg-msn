@@ -15,30 +15,27 @@ const DEBUG = process.env.NODE_ENV === 'development'
 
 const state = {
   isAuth: false,
-  userAuth: null,
-  profile: {}
+  userAuth: null // {}
 }
 
 const getters = {
-  profile: state => state.profile
+  isAuth: state => state.isAuth,
+  user: state => state.userAuth
 }
 
 const mutations = {
   setAuth (state, data) {
     state.isAuth = data
   },
-  setUserAuth (state, user) {
+  SET_USER (state, user) {
     state.userAuth = user
-  },
-  SET_PROFILE (state, user) {
-    state.profile = user
   }
 }
 
 const actions = {
-  getProfile (context, payload) {
+  getUser (context, payload) {
     apolloClient.query({query: profileInfo, variables: payload}).then((result) => {
-      context.commit('SET_PROFILE', result.data.User)
+      context.commit('SET_USER', result.data.User)
     })
   },
   subscribeToUserAuth (context, payload) {
@@ -54,7 +51,7 @@ const actions = {
         // then call your store mutation as usual
         switch (data.User.mutation) {
           case 'UPDATED':
-            context.commit('SET_PROFILE', data.User.node)
+            context.commit('SET_USER', data.User.node)
             break
         }
       },

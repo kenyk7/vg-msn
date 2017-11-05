@@ -10,6 +10,10 @@ const state = {
   users: []
 }
 
+const getters = {
+  users: (state) => state.users
+}
+
 const mutations = {
   SET_USERS (state, users) {
     const object = {}
@@ -65,7 +69,7 @@ const actions = {
 
 export default {
   state,
-  // getters,
+  getters,
   mutations,
   actions
 }

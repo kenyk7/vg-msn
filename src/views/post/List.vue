@@ -61,10 +61,10 @@ import {
 export default {
   computed: {
     user () {
-      return this.$store.state.userAuth
+      return this.$store.getters.user
     },
     posts () {
-      return this.$store.state.post.posts
+      return this.$store.getters.posts
     }
   },
   methods: {

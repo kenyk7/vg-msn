@@ -20,16 +20,13 @@
             <div class="quote__user-name">
               <strong>@{{item.sendBy.username}}</strong>
             </div>
-            <small class="quote__user-date">
-              <span>{{ item.postCreated | moment("from") }}</span>
-              <span>-</span>
-              <span>
-                <b-icon icon="heart" class="is-small"></b-icon>
-                <span class="is-count" v-if="item._likedPostsMeta.count > 0" >
-                  {{item._likedPostsMeta.count}}
-                </span>
+            <p class="quote__user-info">
+              {{ item.postCreated | moment("from") }} -
+              <b-icon icon="heart-o"></b-icon>
+              <span class="is-count" v-if="item._likedPostsMeta.count > 0" >
+                {{item._likedPostsMeta.count}}
               </span>
-            </small>
+            </p>
           </div>
         </div>
         <div class="quote__body">
@@ -58,10 +55,10 @@ import {
 export default {
   computed: {
     user () {
-      return this.$store.state.userAuth
+      return this.$store.getters.user
     },
     posts () {
-      return this.$store.state.post.posts
+      return this.$store.getters.posts
     }
   },
   methods: {
@@ -157,7 +154,7 @@ export default {
     margin-bottom: 10px;
     .is-count{
       position: relative;
-      top: 1px;
+      left: -3px;
     }
   }
   &__user{
@@ -171,6 +168,12 @@ export default {
     }
     &-name{
       font-size: 120%;
+    }
+    &-info{
+      font-size: 90%;
+      .icon .fa{
+        font-size: inherit;
+      }
     }
     &-caption{
       padding: 5px 10px;

@@ -9,9 +9,10 @@
         <div v-if="user" class="pag-profile">
           <div class="user-caption">
             <div class="user-caption__img">
-              <img src="https://placeimg.com/250/250/people" :alt="profile.username"  width="150">
+              <img src="https://placeimg.com/250/250/people" :alt="user.username"  width="150">
             </div>
-            <h2 class="title is-2">@{{profile.username}}</h2>
+            <h2 class="title is-2">@{{user.username}}</h2>
+            <p>{{user.email}}</p>
           </div>
           <div class="pag-profile__tags">
             <b-field grouped group-multiline>
@@ -20,7 +21,7 @@
                   <b-tag type="is-dark">
                     Posts
                   </b-tag>
-                  <b-tag type="is-success">{{profile._postsMeta.count}}</b-tag>
+                  <b-tag type="is-success">{{user._postsMeta.count}}</b-tag>
                 </b-taglist>
               </div>
               <div class="control">
@@ -29,7 +30,7 @@
                     Likes
                   </b-tag>
                   <b-tag type="is-success">
-                    {{profile._likesMeta.count}}
+                    {{user._likesMeta.count}}
                   </b-tag>
                 </b-taglist>
               </div>
@@ -66,10 +67,7 @@ import jwtDecode from 'jwt-decode'
 export default {
   computed: {
     user () {
-      return this.$store.state.userAuth
-    },
-    profile () {
-      return this.$store.state.profile
+      return this.$store.getters.user
     }
   },
   mounted () {
@@ -78,7 +76,6 @@ export default {
   methods: {
     logout () {
       this.$store.commit('setAuth', false)
-      this.$store.commit('setUserAuth', null)
       this.$ls.remove('GC_AUTH_TOKEN')
       this.$ls.remove('GC_AUTH_USER')
     }

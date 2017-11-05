@@ -11,12 +11,25 @@ import {
 let postsSubscriptionObserver
 
 const state = {
-  posts: [],
-  myPosts: [],
-  myPostsLikes: []
+  hasMore: true,
+  perPage: 7,
+  posts: [], // {}
+  myPosts: [], // {}
+  myPostsLikes: [] // {}
+}
+
+const getters = {
+  hasMore: (state) => state.hasMore,
+  perPage: (state) => state.perPage,
+  posts: (state) => state.posts,
+  myPosts: (state) => state.myPosts,
+  myPostsLikes: (state) => state.myPostsLikes
 }
 
 const mutations = {
+  SET_HAS_MORE (state, status) {
+    state.hasMore = status
+  },
   SET_POSTS (state, posts) {
     // having an object instead of an array makes the other methods easier
     // since we can use Vue.set() and Vue.delete()
@@ -24,7 +37,7 @@ const mutations = {
     posts.map((post) => {
       object[post.id] = post
     })
-    state.posts = object
+    state.posts = {...state.posts, ...object}
   },
   ADD_POST (state, post) {
     const object = {}
@@ -59,8 +72,19 @@ const mutations = {
 
 const actions = {
   getPosts (context, payload) {
-    apolloClient.query({query: postsHome, variables: payload}).then((result) => {
-      context.commit('SET_POSTS', result.data.allPosts)
+    const perPage = context.state.perPage
+    apolloClient.query({
+      query: postsHome,
+      variables: {
+        ...payload,
+        perPage
+      }
+    }).then((result) => {
+      const allPosts = result.data.allPosts
+      context.commit('SET_POSTS', allPosts)
+      if (allPosts.length < perPage) {
+        context.commit('SET_HAS_MORE', false)
+      }
     })
   },
   subscribeToPosts (context, payload) {
@@ -108,7 +132,7 @@ const actions = {
 
 export default {
   state,
-  // getters,
+  getters,
   mutations,
   actions
 }

@@ -8,13 +8,16 @@
           <div class="box trending">
             <p class="trend-title"><span class="title is-5">Trends</span></p>
             <div v-for="item in posts" class="trend-hashtag" :key="item.id">
-              <a href="#">{{item.content}}</a> {{index}}
+              <a href="#">{{item.content}}</a>
               {{item._likedPostsMeta.count}} Likes
             </div>
           </div>
         </div>
         <div class="column is-6">
           <app-quotes></app-quotes>
+          <p class="has-text-centered">
+            <button v-if="hasMore" class="button is-primary" @click="loadMore()">Ver más</button>
+          </p>
         </div>
         <div class="column is-3">
           <div class="box">
@@ -57,7 +60,7 @@
 import postList from './post/List.vue'
 import appQuotes from './post/Quotes.vue'
 import cardProfile from './partials/CardProfile.vue'
-
+import { mapGetters } from 'vuex'
 import { addToUserOnUser, removeFromUserOnUser, updateUserFake } from './post/graph.cool.js'
 export default {
   components: {
@@ -65,19 +68,26 @@ export default {
     appQuotes,
     cardProfile
   },
-  computed: {
-    // userAuth
-    user () {
-      return this.$store.state.userAuth
-    },
-    users () {
-      return this.$store.state.user.users
-    },
-    posts () {
-      return this.$store.state.post.posts
+  computed: mapGetters(['user', 'users', 'posts', 'hasMore']),
+  mounted () {
+    const _self = this
+    window.onscroll = function (e) {
+      if ((window.innerHeight + window.pageYOffset) >= document.body.offsetHeight - 2) {
+        _self.loadMore()
+      }
     }
   },
   methods: {
+    loadMore () {
+      if (!this.hasMore) return
+      const keys = Object.keys(this.posts)
+      const payload = {
+        userAuth: this.user.id,
+        after: keys[keys.length - 1]
+      }
+      console.log('load more')
+      this.$store.dispatch('getPosts', payload)
+    },
     follow (item) {
       this.toggleFollow(item, addToUserOnUser)
     },

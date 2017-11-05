@@ -8,10 +8,10 @@
       </a>
       <div class="card-user">
         <div class="card-user-name">
-          <a href="#">{{profile.username}}</a>
+          <a href="#">{{user.username}}</a>
         </div>
         <span>
-          <a href="#">@<span>{{profile.username}}</span></a>
+          <a href="#">@<span>{{user.username}}</span></a>
         </span>
       </div>
       <div class="card-stats">
@@ -19,19 +19,19 @@
           <li class="card-stats-item">
             <a href="#">
               <span class="card-stats-key">Posts</span>
-              <span class="card-stats-val">{{profile._postsMeta.count}}</span>
+              <span class="card-stats-val">{{user._postsMeta.count}}</span>
             </a>
           </li>
           <li class="card-stats-item">
             <a href="#">
               <span class="card-stats-key">Siguiendo</span>
-              <span class="card-stats-val">{{profile._followingsMeta.count}}</span>
+              <span class="card-stats-val">{{user._followingsMeta.count}}</span>
             </a>
           </li>
           <li class="card-stats-item">
             <a href="#">
               <span class="card-stats-key">Seguidores</span>
-              <span class="card-stats-val">{{profile._followersMeta.count}}</span>
+              <span class="card-stats-val">{{user._followersMeta.count}}</span>
             </a>
           </li>
         </ul>
@@ -42,8 +42,8 @@
 <script>
 export default{
   computed: {
-    profile () {
-      return this.$store.state.profile
+    user () {
+      return this.$store.getters.user
     }
   }
 }

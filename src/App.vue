@@ -22,12 +22,12 @@ export default {
     const _self = this
     if (this.user) {
       const payload = {
-        userAuth: _self.user.id
+        userAuth: _self.user.id,
+        after: null
       }
       _self.$store.commit('setAuth', true)
-      _self.$store.commit('setUserAuth', _self.user)
+      _self.$store.dispatch('getUser', payload)
       _self.$store.dispatch('getUsers', payload)
-      _self.$store.dispatch('getProfile', payload)
       _self.$store.dispatch('getPosts', payload)
       _self.$store.dispatch('getMyPosts', payload)
       _self.$store.dispatch('getMyPostsLikes', payload)
