@@ -4,8 +4,8 @@
       <div class="columns">
         <div class="column is-3">
           <card-profile></card-profile>
-          <div class="spacer"></div>
-          <div class="box trending">
+          <div class="spacer is-hidden-mobile"></div>
+          <div class="box trending is-hidden-mobile">
             <p class="trend-title"><span class="title is-5">Trends</span></p>
             <p>
               Próximamente

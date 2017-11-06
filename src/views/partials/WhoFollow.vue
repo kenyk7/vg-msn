@@ -2,32 +2,37 @@
   <div class="box">
     <p><span class="title is-5">Who to follow</span></p>
     <hr>
-    <div class="columns" v-for="item in users" :key="item.id">
-      <div class="column is-3 is-marginless">
-        <div class="image">
+    <article class="media" v-for="item in users" :key="item.id">
+      <figure class="media-left">
+        <p class="image is-64x64">
           <img :src="'https://placeimg.com/140/140/animals?' + item.username">
+        </p>
+      </figure>
+      <div class="media-content">
+        <div class="content">
+          <p>
+            <strong>@{{item.username}}</strong>
+            <small>({{item._followersMeta.count}})</small>
+          </p>
+        </div>
+        <div class="field">
+          <p class="control">
+            <a v-if="item.followers.length > 0" @click="unFollow(item)"
+              class="button is-danger is-small">
+              <span>
+                - Seguir
+              </span>
+            </a>
+            <a v-else @click="follow(item)"
+            class="button is-primary is-small">
+              <span>
+                + Seguir
+              </span>
+            </a>
+          </p>
         </div>
       </div>
-      <div class="column is-9">
-        <p style="margin-top: -6px">
-          <a href="#">
-            <strong>@{{item.username}}</strong> ({{item._followersMeta.count}})
-          </a>
-        </p>
-        <a v-if="item.followers.length > 0" @click="unFollow(item)"
-          class="button is-danger is-small">
-          <span>
-            - Seguir
-          </span>
-        </a>
-        <a v-else @click="follow(item)"
-        class="button is-primary is-small">
-          <span>
-            + Seguir
-          </span>
-        </a>
-      </div>
-    </div>
+    </article>
   </div>
 </template>
 <script>

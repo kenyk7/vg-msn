@@ -62,8 +62,8 @@ export default {
 </script>
 
 <style>
-  .main-body{
-    padding: 30px 0;
+  .section{
+    padding: 30px 15px;
   }
   .fade-enter-active, .fade-leave-active {
     transition: all .5s;

@@ -1,6 +1,6 @@
 <template>
   <div class="pag-profile">
-    <section class="hero is-medium" style="background-image: url(https://picsum.photos/1500/500?random)">
+    <section class="hero is-medium is-m" style="background-image: url(https://picsum.photos/1500/500?random)">
       <div class="hero-body">
       </div>
     </section>
@@ -70,12 +70,19 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+@media (min-width: 480px) {
+  .pag-profile{
+    &__body{
+      margin-top: -125px;
+    }
+  }
+}
 .pag-profile{
   .hero{
     background-position: center center;
   }
   &__body{
-    margin-top: -125px;
+    margin-top: -65px;
     text-align: center;
     margin-bottom: 1rem;
   }

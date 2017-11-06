@@ -8,11 +8,15 @@
       </a>
       <div class="card-user">
         <div class="card-user-name">
-          <a href="#">{{user.username}}</a>
+          <router-link :to="{name: 'Profile'}">
+            {{user.username}}
+          </router-link>
         </div>
-        <span>
-          <a href="#">@<span>{{user.username}}</span></a>
-        </span>
+        <div>
+          <router-link :to="{name: 'Profile'}">
+            @<span>{{user.username}}</span>
+          </router-link>
+        </div>
       </div>
       <div class="card-stats">
         <ul class="card-stats-list">
