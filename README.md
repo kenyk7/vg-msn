@@ -1,4 +1,4 @@
-# vue-graphql-mini-social-network
+# VG-MSN
 
 > A Vue.js project
 
